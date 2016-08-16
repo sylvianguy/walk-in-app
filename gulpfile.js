@@ -32,4 +32,5 @@ gulp.task('bs', () => {
 
 gulp.task('default', ['js','bs'], () => {
 	gulp.watch('src/**/*.js',['js']);
+	gulp.watch('./public/style.css',reload);
 });
