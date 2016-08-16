@@ -7,6 +7,7 @@ input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}b
 
 body {
 	background: #f7fbfb;
+	color: #182020;
 }
 
 /*
@@ -18,6 +19,10 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+
+.mainHeader a {
+	margin: 0 10px;
 }
 
 /*
@@ -51,8 +56,6 @@ body {
 	right: 5px;
 }
 
-
-
 /*
 	Notes container
 */
@@ -60,10 +63,51 @@ body {
 .notes {
 	padding: 0 50px;
 	display: flex;
+	flex-wrap: wrap;
 }
 
 .noteCard {
-	width: 25%;
+	flex: 1 0 200px;
 	background: white;
 	box-shadow: 3px 2px 3px rgba(0,0,0,0.1);
+	margin: 15px;
+	padding: 10px;
+
 }
+
+.noteCard h4 {
+	margin-top: 0;
+	position: relative;
+}
+
+.noteCard h4:after {
+	width: 20px;
+	height: 2px;
+	background: #182020;
+	display: block;
+	position: absolute;
+	bottom: -10px;
+	left: 0;
+	content: "";
+}
+
+/*
+	Modals
+*/
+
+.modal,
+.overlay {
+	visibility: hidden;
+	opacity: 0;
+	transition: all 0.3s ease;
+}
+
+.modal.show,
+.overlay.show {
+	visibility: visible;
+	opacity: 1;
+}
+
+
+
+
