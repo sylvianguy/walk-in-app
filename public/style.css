@@ -100,6 +100,7 @@ body {
 	visibility: hidden;
 	opacity: 0;
 	transition: all 0.3s ease;
+	position: absolute;
 }
 
 .modal.show,
@@ -107,6 +108,24 @@ body {
 	visibility: visible;
 	opacity: 1;
 }
+
+.modal {
+	width: 300px;
+	background: white;
+	border: 10px solid rgba(255,255,255,0.5);
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+.overlay {
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(0,0,0,0.4);
+}
+
 
 
 

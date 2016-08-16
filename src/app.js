@@ -38,10 +38,14 @@ class App extends React.Component {
 			}
 		});
 	}
+	toggleOverlay() {
+		this.overlay.classList.toggle('show');
+	}
 	toggleAddNote(e) {
 		e.preventDefault();
 		if(firebase.auth().currentUser) {
 			this.sidebar.classList.toggle('show');
+			this.toggleOverlay.call(this);
 		}
 		else {
 			alert('Please login to add a new note');
@@ -65,6 +69,7 @@ class App extends React.Component {
 				this.noteTitle.value = '';
 				this.noteText.value = '';
 				this.sidebar.classList.toggle('show');
+				this.toggleOverlay.call(this);
 			})
 			.catch(err => {
 				console.login(err);
@@ -73,6 +78,7 @@ class App extends React.Component {
 	showLoginModal(e) {
 		e.preventDefault();
 		this.loginModal.classList.add('show');
+		this.toggleOverlay.call(this);
 	}
 	loginUser(e) {
 		e.preventDefault();
@@ -84,6 +90,7 @@ class App extends React.Component {
 			.signInWithEmailAndPassword(user.email,user.password)
 			.then((res) => {
 				this.loginModal.classList.remove('show');
+				this.toggleOverlay.call(this);
 			})
 			.catch((err) => {
 				alert(err.message);
@@ -92,6 +99,7 @@ class App extends React.Component {
 	createModal(e) {
 		e.preventDefault();
 		this.createUserModal.classList.add('show');
+		this.toggleOverlay.call(this);
 	}
 	createUser(e) {
 		e.preventDefault();
@@ -109,6 +117,7 @@ class App extends React.Component {
 			.createUserWithEmailAndPassword(user.email,user.password)
 			.then((res) => {
 				this.createUserModal.classList.remove('show');
+				this.toggleOverlay.call(this);
 			})
 			.catch((err) => {
 				alert(err.message)
@@ -138,7 +147,7 @@ class App extends React.Component {
 						<input type="submit"/>
 					</form>
 				</aside>
-				<div className="overlay"></div>
+				<div className="overlay" ref={ref => this.overlay = ref}></div>
 				<div className="loginModal modal" ref={ref => this.loginModal = ref}>
 					<form action="" onSubmit={e => this.loginUser.call(this,e)}>
 						<div>
