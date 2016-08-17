@@ -22,13 +22,12 @@ class App extends React.Component {
 
 		firebase.auth().onAuthStateChanged((user) => {
 			if(user) {
-				console.log('There is a user');
 				firebase.database().ref(`users/${user.uid}/notes`)
-					.once('value')
-					.then((res) => {
+					.on('value', (res) => {
 						let userData = res.val();
 						let dataArray = [];
 						for(let key in userData) {
+							userData[key].key = key;
 							dataArray.push(userData[key])
 						}
 						this.setState({
@@ -45,7 +44,6 @@ class App extends React.Component {
 		e.preventDefault();
 		if(firebase.auth().currentUser) {
 			this.sidebar.classList.toggle('show');
-			this.toggleOverlay.call(this);
 		}
 		else {
 			alert('Please login to add a new note');
@@ -58,21 +56,21 @@ class App extends React.Component {
 			text: this.noteText.value
 		};
 		const newState = Array.from(this.state.notes);
-		newState.push(newNote);
 		const currentUser = firebase.auth().currentUser.uid;
 		const dbRef = firebase.database().ref(`users/${currentUser}/notes`);
 		dbRef.push(newNote)
 			.then(res => {
+				newNote.key = res.key;
+				newState.push(newNote);
 				this.setState({
 					notes: newState
 				});
 				this.noteTitle.value = '';
 				this.noteText.value = '';
 				this.sidebar.classList.toggle('show');
-				this.toggleOverlay.call(this);
 			})
 			.catch(err => {
-				console.login(err);
+				console.log(err);
 			});
 	}
 	showLoginModal(e) {
@@ -124,6 +122,11 @@ class App extends React.Component {
 			});
 
 	}
+	removeNote(key) {
+		const currentUser = firebase.auth().currentUser;
+		const objRef = firebase.database().ref(`users/${currentUser.uid}/notes/${key}`);
+		objRef.remove();
+	}
 	render() {
 		return (
 			<div>
@@ -136,7 +139,7 @@ class App extends React.Component {
 					</nav>
 				</header>
 				<section className="notes">
-					{this.state.notes.map((note,i) => <NoteCard note={note} key={i}/>)}
+					{this.state.notes.map((note,i) => <NoteCard note={note} key={note.key} removeNote={this.removeNote} />)}
 				</section>
 				<aside ref={ref => this.sidebar = ref} className="sidebar">
 					<h3>Add new note</h3>
@@ -158,7 +161,9 @@ class App extends React.Component {
 							<label htmlFor="password">Password:</label>
 							<input type="password" name="password" ref={ref => this.userPassword = ref}/>
 						</div>
-						<input type="submit"/>
+						<div>
+							<input type="submit"/>
+						</div>
 					</form>
 				</div>
 				<div className="createUserModal modal" ref={ref => this.createUserModal = ref}>
@@ -175,7 +180,9 @@ class App extends React.Component {
 							<label htmlFor="confirmPassword">Confirm Password:</label>
 							<input type="password" name="confirmPassword" ref={ref => this.confirmPassword = ref}/>
 						</div>
-						<input type="submit"/>
+						<div>
+							<input type="submit"/>
+						</div>
 					</form>
 				</div>
 			</div>

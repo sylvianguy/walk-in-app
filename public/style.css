@@ -48,6 +48,14 @@ body {
 .sidebar textarea {
 	width: 100%;
 	margin-bottom: 25px;
+	background: transparent;
+	border: none;
+	border-bottom: 2px solid #517288;
+}
+
+.sidebar input[type=submit] {
+	border: 2px solid #517288;
+	color: #2f424e;
 }
 
 .fa-times {
@@ -72,7 +80,7 @@ body {
 	box-shadow: 3px 2px 3px rgba(0,0,0,0.1);
 	margin: 15px;
 	padding: 10px;
-
+	position: relative;
 }
 
 .noteCard h4 {
@@ -89,6 +97,21 @@ body {
 	bottom: -10px;
 	left: 0;
 	content: "";
+}
+
+.noteCard input,
+.noteCard textarea {
+	border: none;
+	border-bottom: 2px solid #182020;
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+.noteCard input[type=submit] {
+	width: auto;
+	border: 2px solid #182020;
+	color: #182020;
+	background: transparent;
 }
 
 /*
@@ -110,12 +133,20 @@ body {
 }
 
 .modal {
-	width: 300px;
+	width: 400px;
 	background: white;
 	border: 10px solid rgba(255,255,255,0.5);
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%,-50%);
+}
+
+.modal div {
+	margin: 15px;
+	display: flex;
+}
+.modal label {
+	margin-right: 10px;
 }
 
 .overlay {

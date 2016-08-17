@@ -7,6 +7,8 @@ const buffer = require('vinyl-buffer');
 const browserSync = require('browser-sync');
 const reload = browserSync.reload;
 const historyApiFallback = require('connect-history-api-fallback');
+const notify = require('gulp-notify');
+const plumber = require('gulp-plumber');
 
 
 gulp.task('js', () => {
@@ -14,7 +16,11 @@ gulp.task('js', () => {
 		.transform('babelify', {
 			presets: ['es2015','react']
 		})
-		.bundle()	
+		.bundle()
+		.on('error',notify.onError({
+			message: "Error: <%= error.message %>",
+			title: 'Error in JS 💀'
+		}))
 		.pipe(source('app.js'))
 		.pipe(buffer())
 		.pipe(gulp.dest('public/'))
