@@ -9,6 +9,7 @@ const reload = browserSync.reload;
 const historyApiFallback = require('connect-history-api-fallback');
 const notify = require('gulp-notify');
 const plumber = require('gulp-plumber');
+// const moment = require('moment');
 
 
 gulp.task('js', () => {

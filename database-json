@@ -1,0 +1,42 @@
+{
+	//firebase.database.ref(salonName)
+	//.ref(`${salonName}/employees/${name}`).push({})
+	//.ref(`${salonName}/employees/maria`).push({})
+	"aCs4qMCI5ahJJOdRyPAdinjZ19Z2": {
+	}
+	"stylistics": {
+		"employees": {
+			"-2fasdfasfef": {
+				"name": "Maria",
+				"availbleTime": {
+					"0ffsfasff": "10:00am",
+					"0ffsfasff": "10:00am"
+				}
+			}
+		},
+		"services": {
+			"klfa;lsfj": "Hair"
+		},
+		"bookings": {
+			"kfdlas": {
+				"customersName": "Ryan",
+				"stylist": "Maria",
+				"time": "10:00am",
+				"service": "Hair",
+				"notes": "Needs good hair"
+			},
+			"kfdlas": {
+				"customersName": "Arianne",
+				"stylist": "Maria",
+				"time": "10:30am",
+				"service": "Hair",
+				"notes": "Needs good hair"
+			}
+		}
+	},
+	"nailedit" : {
+		"employees": {
+
+		}
+	}
+}
