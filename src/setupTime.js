@@ -118,7 +118,6 @@ export default class setupTime extends React.Component {
 
 		firebase.database().ref(`${currentUser.uid}/employees/${this.state.currentEmployee}/times/${timeToRemove.key}`).remove();
 
-
 	}
 
 	renderTime(times)  {

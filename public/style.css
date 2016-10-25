@@ -18,147 +18,28 @@ a {
 	color: black;
 	text-decoration: none;
 }
-.mainHeader {
-	padding: 0 50px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+
+h1,
+h2,
+h3 {
+	margin: 0;
+	padding: 0;
 }
 
-.mainHeader a {
-	margin: 0 10px;
+header {
+	background: #28303d;
 }
 
-/*
-	Sidebar
-*/
-
-.sidebar {
-	width: 250px;
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: -250px;
-	background: #7fb5d7;
-	transition: all 0.5s ease;
-	padding: 0 15px;
+h1 {
+	padding: 24px;
+	text-align: center;
+	color: white;
+	letter-spacing: 3px;
 }
 
-.sidebar.show {
-	left: 0;
-}
-
-.sidebar input,
-.sidebar textarea {
-	width: 100%;
-	margin-bottom: 25px;
-	background: transparent;
-	border: none;
-	border-bottom: 2px solid #517288;
-}
-
-.sidebar input[type=submit] {
-	border: 2px solid #517288;
-	color: #2f424e;
-}
-
-.fa-times {
-	position: absolute;
-	top: 5px;
-	right: 5px;
-}
-
-/*
-	Notes container
-*/
-
-.notes {
-	padding: 0 50px;
-	display: flex;
-	flex-wrap: wrap;
-}
-
-.noteCard {
-	flex: 1 0 200px;
-	background: white;
-	box-shadow: 3px 2px 3px rgba(0,0,0,0.1);
-	margin: 15px;
-	padding: 10px;
-	position: relative;
-}
-
-.noteCard h4 {
-	margin-top: 0;
-	position: relative;
-}
-
-.noteCard h4:after {
-	width: 20px;
-	height: 2px;
-	background: #182020;
-	display: block;
-	position: absolute;
-	bottom: -10px;
-	left: 0;
-	content: "";
-}
-
-.noteCard input,
-.noteCard textarea {
-	border: none;
-	border-bottom: 2px solid #182020;
-	margin-bottom: 10px;
-	width: 100%;
-}
-
-.noteCard input[type=submit] {
-	width: auto;
-	border: 2px solid #182020;
-	color: #182020;
-	background: transparent;
-}
-
-/*
-	Modals
-*/
-
-.modal,
-.overlay {
-	visibility: hidden;
-	opacity: 0;
-	transition: all 0.3s ease;
-	position: absolute;
-}
-
-.modal.show,
-.overlay.show {
-	visibility: visible;
-	opacity: 1;
-}
-
-.modal {
-	width: 400px;
-	background: white;
-	border: 10px solid rgba(255,255,255,0.5);
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%,-50%);
-}
-
-.modal div {
-	margin: 15px;
-	display: flex;
-}
-.modal label {
-	margin-right: 10px;
-}
-
-.overlay {
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	background: rgba(0,0,0,0.4);
+.wrapper {
+	max-width: 800px;
+	margin: 0 auto;
 }
 
 .button {
@@ -168,10 +49,6 @@ a {
 	text-align: center;
 	border: 1px solid black;
 }
-
-/*.button:active {
-	background: cyan;
-}*/
 
 .button--next {
 	background: #fbd20a;
@@ -185,10 +62,10 @@ a {
 	border: 1px solid black;
 }
 
-/*.b {
-	background: cyan;
-}*/
-
+.mainApp {
+	background: #e1e7ea;
+	margin-top: 30px;
+}
 
 
 

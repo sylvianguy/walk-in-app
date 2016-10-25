@@ -1,14 +1,16 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import { Route, Router, Link, browserHistory, IndexRoute } from 'react-router';
-import About from './about.js';
-import Salon from './salon.js';
-import Home from './home.js';
-import Login from './login.js';
-import CreateUser from './createUser.js';
-import Setup from './setup.js';
-import SetupTime from './setupTime.js';
+import About from './about';
+import Salon from './salon';
+import Home from './home';
+import Login from './login';
+import CreateUser from './createUser';
+import Setup from './setup';
+import SetupTime from './setupTime';
 import SetupServices from './setupServices';
+import Dashboard from './dashboard';
+import Header from './header';
 
 
 class App extends React.Component {
@@ -33,9 +35,10 @@ class App extends React.Component {
 	}
 
 	render() {
+		const header = <Header history={this.props.history} />
 		return (
-			<div className="header">
-				<h1>Walk-in App</h1>
+			<div className="wrapper">
+				{header}
 				{this.props.children}
 			</div>
 		)
@@ -54,6 +57,7 @@ ReactDom.render(
 			<Route path="about" component={About}/>
 			<Route path="salon/:client" component={Salon}/>
 			<Route path="setupServices" component={SetupServices} />
+			<Route path="dashboard" component={Dashboard} />
 		</Route>
 	</Router>
 	, document.getElementById('app'));

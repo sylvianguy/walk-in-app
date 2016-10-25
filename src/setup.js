@@ -69,7 +69,7 @@ export default class Setup extends React.Component {
 	}
 	render() {
 		return (
-			<div>
+			<div class="mainApp">
 				<h2>Setup all of your stuff here</h2>
 				<form onSubmit={(e) => this.addEmployees.call(this, e)}>
 					<input type='text' ref={ref => this.createEmployee =  ref}/>

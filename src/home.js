@@ -6,10 +6,10 @@ export default class Home extends React.Component {
 		return (
 			<div>
 				<h1>This is the home page</h1>
-				<Link to="/login">Login</Link>
+				<Link className="button" to="/login">Login</Link>
 				<br/>
 				<br/>
-				<Link to="/createUser">Create User</Link>
+				<Link className="button" to="/createUser">Create User</Link>
 			</div>
 		)
 	}

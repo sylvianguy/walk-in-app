@@ -16,10 +16,11 @@ export default class setupServices extends React.Component {
 				.on('value', (res) => {
 					const allData = res.val();
 					const allDataArray = [];
-
 					for(let key in allData) {
-						allDataArray.push(allData[key])
-						
+						allDataArray.push({
+							key: key,
+							service: allData[key]
+						})
 					}
 
 					this.setState({
@@ -31,17 +32,19 @@ export default class setupServices extends React.Component {
 	}
 
 	removeServices(serviceToRemove) {
-		console.log(serviceToRemove)
+		// const currentKey = servicesToRemove.key
+		const currentUser = firebase.auth().currentUser;
+
+		firebase.database().ref(`${currentUser.uid}/services/${serviceToRemove.key}`).remove();
 	}
 
 	addServices(e) {
 		e.preventDefault();
 		const inputValue = this.createService.value;
-		console.log("service", inputValue);
-		//get the currentstate
+
 		const currentState = this.state.services
 		currentState.push(inputValue);
-		console.log("curr", currentState);
+
 
 		this.setState({
 			services: currentState
@@ -49,7 +52,6 @@ export default class setupServices extends React.Component {
 
 
 		const currentUser = firebase.auth().currentUser;
-
 		if(currentUser) {
 			firebase.database().ref(`${currentUser.uid}/services`)
 				.push(inputValue)
@@ -69,16 +71,17 @@ export default class setupServices extends React.Component {
 				</section>
 				<section>
 					{this.state.services.map((service, i) =>{
-						console.log("surv", service)
 						return (
 							<div key={i}>
 								<a href="#">
-									<h3 className={this.state.services === service ? 'button--active' : 'button'}>{service}</h3>
+									<i className="fa fa-minus" onClick={(e) => this.removeServices.call(this, service)}></i>
+									<h3 className={this.state.services === service ? 'button--active' : 'button'}>{service.service}</h3>
 								</a>
 							</div>
 						)
 					})}
 				</section>
+				<Link className="button button--next" to="/dashboard">NEXT</Link>
 			</div>
 		)
 	}
