@@ -57,7 +57,11 @@ export default class setupTime extends React.Component {
 		if(currentUser) {
 			firebase.database().ref(`${currentUserId}/employees/${this.state.currentEmployee}/times`)
 				//pushing single employee rather than the whole list
-				.push(time);
+				.push({
+					time: time,
+					booked: false
+				});
+				this.createTime.value = '';
 		}
 
 
@@ -107,9 +111,9 @@ export default class setupTime extends React.Component {
 
 	}
 	removeTime(timeToRemove) {
-		console.log("time to remove", timeToRemove.key);
+		console.log("time to remove", timeToRemove);
 		const testing = this.state.currentTimeId;
-		// console.log("what is this?", testing)
+		console.log("what is this?", testing)
 
 		// timeToRemove.remove();
 		const currentUser = firebase.auth().currentUser;
@@ -117,6 +121,7 @@ export default class setupTime extends React.Component {
 		//use the time to remove after we have found the key
 
 		firebase.database().ref(`${currentUser.uid}/employees/${this.state.currentEmployee}/times/${timeToRemove.key}`).remove();
+		console.log(`${currentUser.uid}/employees/${this.state.currentEmployee}/times/${timeToRemove.key}`);
 
 	}
 
@@ -132,13 +137,13 @@ export default class setupTime extends React.Component {
 			})
 			keyArray.push(key)
 		}
-
+		console.log(timesArray);
 		return (
 			timesArray.map((item) => {
 				return (
 					<div>
 						<i className="fa fa-minus" onClick={(e) => this.removeTime.call(this, item) }></i>
-						<li>{item.times}</li>
+						<li>{item.times.time}</li>
 					</div>
 				)
 			})
@@ -159,8 +164,7 @@ export default class setupTime extends React.Component {
 				</form>
 				<section>
 					{this.state.employees.map((item, i) => {
-						const lala = this.state.currentEmployeeName
-						console.log("lala", lala)
+
 						return (
 							<div>
 								<section key={i}>

@@ -1,5 +1,6 @@
 'use strict'
 const gulp = require('gulp');
+const stylus = require('gulp-stylus');
 const babel = require('babelify');
 const browserify = require('browserify');
 const source = require('vinyl-source-stream');
@@ -28,6 +29,13 @@ gulp.task('js', () => {
 		.pipe(reload({stream:true}));
 });
 
+gulp.task('styl', function() {
+  gulp.src('./src/stylus/main.styl')
+    .pipe(stylus())
+    .pipe(gulp.dest('./public/'))
+    .pipe(reload({stream: true}));
+});
+
 gulp.task('bs', () => {
 	browserSync.init({
 		server: {
@@ -37,7 +45,9 @@ gulp.task('bs', () => {
 	});
 });
 
-gulp.task('default', ['js','bs'], () => {
+gulp.task('default', ['js','bs', 'styl'], () => {
 	gulp.watch('src/**/*.js',['js']);
-	gulp.watch('./public/style.css',reload);
+	gulp.watch('./src/stylus/*.styl', ['styl']);
+	// gulp.watch('src/stylus/main.css', reload);
 });
+
