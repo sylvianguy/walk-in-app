@@ -69,25 +69,32 @@ export default class Setup extends React.Component {
 	}
 	render() {
 		return (
-			<div>
+			<div className="config__wrapper">
 				<h2>Setup all of your stuff here</h2>
-				<form onSubmit={(e) => this.addEmployees.call(this, e)}>
-					<input type='text' ref={ref => this.createEmployee =  ref}/>
-					<br/>
-					<br/>
-					<input type='submit' />
-					<Link className="button button--next" to="/setupTime">NEXT</Link>
-				</form>
-				<section>
+				<section className="selection">
+					<form className="selection__duo" onSubmit={(e) => this.addEmployees.call(this, e)}>
+						<i className="fa fa-plus" onClick={(e) => this.addEmployees.call(this, e)}></i>
+						<input type='text' className="textInput" placeholder="Add employee" ref={ref => this.createEmployee =  ref}/>
+					</form>
+					<h3 className="subheading">Employees:</h3>
 					{this.state.employees.map((employee, i) => {
 						return (
-							<div key={i} >
-								<i className="fa fa-minus" onClick={(e) => this.removeEmployee.call(this, employee) }></i>
-								<a href="#"><h3 className="button">{employee.name}</h3></a>
+							<div className="selection__block">
+								<div className="selection__duo" key={`setup-${i}`} >
+									<i className="fa fa-minus" onClick={(e) => this.removeEmployee.call(this, employee) }></i>
+									<a href="#"><h3 className="button">{employee.name}</h3></a>
+								</div>
+								<div className="selection__duo">
+										<i className="fa fa-plus"></i>
+									<a href='#'>
+										<h3 className="button addTime">Add time</h3>
+									</a>
+								</div>
 							</div>
 						)
 					})}
 				</section>
+				<Link className="button button--next" to="/setupTime">NEXT</Link>
 			</div>
 		)
 	}

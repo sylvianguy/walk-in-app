@@ -33,25 +33,13 @@ export default class createUser extends React.Component {
 	render() {
 		return (
 			<div>
-				<h2>Create User</h2>
-				<form action="" onSubmit={e => this.createUser.call(this, e)}>
-					<label>Enter your salon name:</label>
-					<input type='text' name='createName' placeholder='salon name' ref={ref => this.createName = ref} />
-					<br/>
-					<br/>
-					<label>Enter your email:</label>
+				<form className="signIn__box" action="" onSubmit={e => this.createUser.call(this, e)}>
+					<h2>Create User</h2>
+					<input type='text' name='createName' placeholder='username' ref={ref => this.createName = ref} />
 					<input type='text' placeholder='email' ref={ref => this.createEmail = ref }/>
-					<br/>
-					<br/>
-					<label>Enter your password:</label>
 					<input type='password' placeholder='password' ref={ref => this.createPassword = ref }/>
-					<br/>
-					<br/>
-					<label>Confirm your password:</label>
 					<input type='password' placeholder='confirm password' ref={ref => this.confirmPassword = ref }/>
-					<br/>
-					<br/>
-					<input type='submit'/>
+					<input className="button button--submit" type='submit'/>
 				</form>
 			</div>
 		)

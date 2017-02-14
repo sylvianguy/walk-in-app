@@ -1,8 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router';
+import SweetAlert from 'react-bootstrap-sweetalert';
+// import {}
 
 export default class Dashboard extends React.Component {
-
 	constructor() {
 		super();
 		this.state = {
@@ -16,7 +17,10 @@ export default class Dashboard extends React.Component {
 			services: [],
 			chosenTime: "",
 			service: "",
-			justTimes: []
+			bookingInfo: [],
+			removeModal: false,
+			personId: "",
+			alert: null
 		}
 	}
 
@@ -63,13 +67,13 @@ export default class Dashboard extends React.Component {
 						})
 						
 					}
-					console.log("lala", servicesData);
+					// console.log("lala", servicesData);
 
 					this.setState({
 						services: servicesArray
-					})	
+					})
 
-				})		
+				})
 
 		})
 	}
@@ -92,6 +96,25 @@ export default class Dashboard extends React.Component {
 	//save customer's name under stylist
 
 	}
+	removeAppointment(removedInfo) {
+		const stylists = this.state.stylists;
+		const currentUser = this.state.currentUser;
+		const currentUserId = this.state.currentUserId;
+
+		if(currentUser) {
+			firebase.database().ref(`${currentUserId}/employees/${this.state.personId}/times/${removedInfo.key}/bookingInfo`).remove();
+		}
+
+		if(currentUser) {
+				firebase.database().ref(`${currentUserId}/employees/${this.state.personId}/times/${removedInfo.key}`).update({
+					booked: false
+				});
+			}
+
+		this.setState({
+			removeModal: true
+		})
+	}
 
 	bookAppointment() {
 		const selectedObj = this.state.selectedObj
@@ -102,12 +125,12 @@ export default class Dashboard extends React.Component {
 		const notes = this.createNote.value;
 		const service = this.state.service;
 
-		console.log("chosen time",service)
+		// console.log("chosen time",service)
 			if(currentUser) {
 				firebase.database().ref(`${currentUserId}/employees/${selectedObj.key}/times/${chosenTime}/bookingInfo`).set({
 					customerName: customerName,
-					service: service,
-					notes: notes
+					service,
+					notes
 				});
 			}
 
@@ -119,31 +142,14 @@ export default class Dashboard extends React.Component {
 	
 	}
 
-	renderStylists() {
-	//get list employees names from firebase
-		const stylists = this.state.stylists;
-		return (
-			stylists.map((stylist, i) => {
-				// console.log(stylist)
-				return (
-					<option key={i}>{stylist.name}</option>
-				)
-			})
-		)
-	}
-
 	getAvailability() {
 		const stylistName = {
 			name: this.selectedStylist.value
 		}
-
-		//figure out from the name the stylist times
-
 		//filtering stylists ???
 		let filteredStylist = this.state.stylists.filter((style) => {
 			return style.name === stylistName.name;
 		});
-
 
 		filteredStylist = filteredStylist[0];
 		this.setState({
@@ -151,7 +157,6 @@ export default class Dashboard extends React.Component {
 			stylistTimes: filteredStylist.times,
 			selectedObj: filteredStylist
 		});
-		// console.log("name", filteredStylist.times)
 
 	}
 
@@ -166,8 +171,10 @@ export default class Dashboard extends React.Component {
 		}
 		return (
 			timesArray.map((time, i) => {
-
-				return <option key={i}>{time.time.time}</option>
+				if(time.time.booked !== true) {
+					return <option key={`bookingtime-${i}`}>{time.time.time}</option>
+					
+				}
 			})
 		)
 	}
@@ -186,12 +193,9 @@ export default class Dashboard extends React.Component {
 		let filteredTime = timesArray.filter((item) => {
 			return item.time.time === time;
 		})
-
-
 		this.setState({
-			chosenTime: filteredTime[0].key,
+			chosenTime: filteredTime[0].key
 		})
-
 	}
 
 	getServices() {
@@ -202,39 +206,120 @@ export default class Dashboard extends React.Component {
 			service: this.selectedService.value
 		})
 	}
-
 	getTimes() {
 		const allTimes = this.state.stylists
-
 		return (
 			allTimes.map((time) => {
-				// console.log("time", time)
+					// console.log("what", time)
 				const timesArray = [];
 				for(let key in time.times) {
-					timesArray.push(time.times[key].time);
+					//ONLY display time if it is booked
+					if( time.times[key].booked !== false) {
+						timesArray.push(time.times[key].time);
+					}
 				}
 				return (
 					<div className="appointment__schedule">
 						<h3>{time.name}</h3>
 						<ul>
-						{timesArray.map((single) => {
-							return (
-								<li><a>{single}</a></li>
-							)
-						})}
+							{timesArray.map((single, i) => {
+								return (
+									//passing THIS in this function bounds this to
+									//the dashboard
+									<li key={`time-${i}`} onClick={(e) => this.bookingModal.call(this,e,time, single)}><a>{single}</a></li>
+								)
+							})}
 						</ul>
 					</div>
-				)
+				)	
 			})
 		)
 
 	}
 
-
-	saveNote() {
-	//get value from input textarea
-	//save note to the firebase
+	displayModal() {
+		const bookingInfo = this.state.bookingInfo
+		const allTimes = this.state.stylists
+		const info = bookingInfo[0];
+		const bookingArray = [];
+		if(info) {
+			// console.log('displaymodal', info.service)
+			return (
+				<div className={this.state.removeModal === true ? 'modal--close' : 'modal'}>
+					<div className="modal__box">
+						<i onClick={(e) => this.closeModal.call(this)} className="fa fa-times" aria-hidden="true"></i>
+						<h3>Stylist: <span>{info.stylistName}</span></h3>
+						<h3>Time: <span>{info.time}</span></h3>
+						<h3>Client Name: <span>{info.clientName}</span></h3>
+						<h3>Service: <span>{info.service}</span></h3>
+						<h3>Notes: <span>{info.notes}</span></h3>
+						<button className="button button--remove" onClick={(e) => this.removeAppointment.call(this, info)}>Remove</button>
+					</div>
+				</div>
+			)
+		}
 		
+		
+	}
+
+	closeModal() {
+		console.log("is this working?")
+
+		this.setState({
+			removeModal: true
+		})
+
+	}
+
+	bookingModal(e,person,bookedTime) {
+		console.log("hit booking modal", person, bookedTime)
+		this.setState({
+			removeModal: false,
+			personId: person.key
+		})
+		const time = bookedTime;
+		const stylistName = person.name;
+		const bookedTimes = person.times
+		const dataArray = [];
+
+		for(let key in bookedTimes){
+			// timesArray.push(bookedTimes[key].time)
+			if (bookedTimes[key].time === time) {
+				const bookingInfo = bookedTimes[key].bookingInfo;
+				const customerName = bookingInfo.customerName;
+				// console.log(bookingInfo)
+				dataArray.push({
+					stylistName: stylistName,
+					clientName: bookingInfo.customerName,
+					service: bookingInfo.service,
+					notes: bookingInfo.notes,
+					time,
+					key
+
+				})
+
+				
+			}
+		}
+		this.setState({
+			bookingInfo: dataArray
+		})
+	}
+
+	sweetAlert() {
+		console.log("hello");
+		this.setState({
+			alert: (<SweetAlert success title="Appointment Booked" onConfirm={() => this.hideAlert()}>
+			Appointment booked!
+			</SweetAlert>)
+		});
+			
+	}
+	hideAlert() {
+	console.log('Hiding alert...');
+		this.setState({
+		  alert: null
+		});
 	}
 
 
@@ -244,15 +329,14 @@ export default class Dashboard extends React.Component {
 				<form className="dashboard wrapper" onSubmit={(e) => this.getCustomerName.call(this, e)}>
 					<div className="form--option">
 						<label>
-							<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" enable-background="new 0 0 100 100" xmlSpace="preserve"><g><path d="M50,10.221c-11.05,0-20.039,8.989-20.039,20.039S38.95,50.299,50,50.299S70.04,41.31,70.04,30.26S61.05,10.221,50,10.221   L50,10.221z"/><path d="M49.999,55.055c-19.351,0-35.094,15.743-35.094,35.094h70.189C85.095,70.798,69.351,55.055,49.999,55.055z"/></g></svg>
-							<input placeholder="Customer's name" type="text" ref={ref => this.createCustomer = ref} />
+							<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" enableBackground="new 0 0 100 100" xmlSpace="preserve"><g><path d="M50,10.221c-11.05,0-20.039,8.989-20.039,20.039S38.95,50.299,50,50.299S70.04,41.31,70.04,30.26S61.05,10.221,50,10.221   L50,10.221z"/><path d="M49.999,55.055c-19.351,0-35.094,15.743-35.094,35.094h70.189C85.095,70.798,69.351,55.055,49.999,55.055z"/></g></svg>
+							<input placeholder="Customer's name" type="text" ref={ref => this.createCustomer = ref} required/>
 						</label>
 						<label>
-							<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" enable-background="new 0 0 100 100" xmlSpace="preserve"><g><path d="M50,10.221c-11.05,0-20.039,8.989-20.039,20.039S38.95,50.299,50,50.299S70.04,41.31,70.04,30.26S61.05,10.221,50,10.221   L50,10.221z"/><path d="M49.999,55.055c-19.351,0-35.094,15.743-35.094,35.094h70.189C85.095,70.798,69.351,55.055,49.999,55.055z"/></g></svg>
-							<select onChange={(e) => this.getAvailability.call(this)} ref={ref => this.selectedStylist = ref} >
-								<option selected>Select a stylist</option>
+							<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" enableBackground="new 0 0 100 100" xmlSpace="preserve"><g><path d="M50,10.221c-11.05,0-20.039,8.989-20.039,20.039S38.95,50.299,50,50.299S70.04,41.31,70.04,30.26S61.05,10.221,50,10.221   L50,10.221z"/><path d="M49.999,55.055c-19.351,0-35.094,15.743-35.094,35.094h70.189C85.095,70.798,69.351,55.055,49.999,55.055z"/></g></svg>
+							<select defaultValue="default" onChange={(e) => this.getAvailability.call(this)} ref={ref => this.selectedStylist = ref} >
+								<option value="default">Select a stylist</option>
 								{this.state.stylists.map((item, i) => {
-									// console.log(item.name)
 									return (
 										<option key={i}>{item.name}</option>
 									)
@@ -269,13 +353,14 @@ export default class Dashboard extends React.Component {
 								})}
 							</select>
 						</label>
-						<input className="button button--next button--submit" type="submit" value="Book it" />
+						<input className="button button--next button--submit" type="submit" onClick={() => this.sweetAlert.call(this)} value="Book it"/>
+
 					</div>
 					<div className="form--option">
 						<label>
 							<i className="fa fa-clock-o" aria-hidden="true"></i>
-							<select onChange={() => this.chooseTime.call(this)} ref={ref => this.selectedTimes = ref}>
-								<option selected>Select a time</option>
+							<select defaultValue="default" onChange={() => this.chooseTime.call(this)} ref={ref => this.selectedTimes = ref}>
+								<option value="default">Select a time</option>
 								{this.renderTimes()}	
 							</select>
 						</label>
@@ -288,6 +373,8 @@ export default class Dashboard extends React.Component {
 						<h2>Appointment Schedule</h2>
 						{this.getTimes()}
 					</div>
+					<div>{this.displayModal()}</div>
+					{this.state.alert}
 				</section>
 			</div>
 		)

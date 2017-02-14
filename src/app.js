@@ -11,6 +11,7 @@ import SetupTime from './setupTime';
 import SetupServices from './setupServices';
 import Dashboard from './dashboard';
 import Header from './header';
+import Times from './times';
 
 
 class App extends React.Component {
@@ -35,12 +36,13 @@ class App extends React.Component {
 	}
 
 	render() {
-		const header = <Header history={this.props.history} />
+		// const header = <Header history={this.props.history} />
 		return (
+			
 			<div className="wrapper">
-				{header}
 				{this.props.children}
 			</div>
+
 		)
 	}
 
@@ -49,7 +51,7 @@ class App extends React.Component {
 ReactDom.render(
 	<Router history={browserHistory}>
 		<Route path="/" component={App} >
-		<IndexRoute component={Home}/>
+			<IndexRoute component={Home}/>
 			<Route path="login" component={Login} />
 			<Route path="setup" component={Setup} />
 			<Route path="createUser" component={CreateUser} />
@@ -58,6 +60,7 @@ ReactDom.render(
 			<Route path="salon/:client" component={Salon}/>
 			<Route path="setupServices" component={SetupServices} />
 			<Route path="dashboard" component={Dashboard} />
+			<Route path="times" component={Times} />
 		</Route>
 	</Router>
 	, document.getElementById('app'));

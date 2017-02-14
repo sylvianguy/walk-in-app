@@ -5,9 +5,6 @@ input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}b
 
 * { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
-body 
-	background #f7fbfb
-	color #182020
 
 /*
 	Main Header
@@ -17,11 +14,32 @@ body
 
 $blue-white = #f7f7f7
 $blue-pale = #e1e7ea
+$blue-dark-l = #c8d6dd
 $button-yellow = #fbd20a
-$accent-color = #5ec2ba
+// $accent-color = #5ec2ba
+$accent-color = #71d2d4
+$red = #f04e59
+$black = #454648
+
+$font-lato = 'Lato', sans-serif;
+$font-playfair = 'Playfair Display', serif;
+$font-size-sm = 1.7rem
+$font-weight-thin = 300
+$playfair-thin = 400
 
 //********************
 
+html
+	font-size 64.5%
+
+body 
+	background $blue-white
+	color #182020
+	font-family $font-lato
+	font-size $font-size-sm
+	font-weight $font-weight-thin
+	letter-spacing 1.3px
+	
 
 li 
 	list-style none
@@ -38,17 +56,43 @@ h2,
 h3 
 	margin 0
 	padding 0
+	font-family $font-lato
 
 header 
 	background #28303d
 
+button 
+	border none
+	background $button-yellow
+	color white
+	padding 10px 31px
 
 h1
 	padding 15px
 	text-align center
 	color white
 	letter-spacing 2px
-	font-size 1.4em
+	font-family $font-playfair
+	font-weight $playfair-thin
+	font-size 2rem
+
+h2 
+	font-family $font-playfair
+	font-size 3rem
+	font-style italic
+	font-weight $playfair-thin
+
+h3.subheading 
+	margin-bottom 20px
+	width 100%
+	font-weight 600
+
+.config__wrapper
+	h2
+		padding 26px 0 20px 0
+		border-bottom 2px solid $accent-color
+		margin-bottom 43px
+		color $accent-color
 
 .wrapper 
 	max-width 800px
@@ -57,12 +101,17 @@ h1
 
 .button 
 	background white
-	width 200px
+	width 210px
 	padding 10px 15px
 	text-align center
 	border none
+	font-weight $font-weight-thin
 	&--next
 		background $button-yellow
+		float right
+		margin-bottom 40px
+		font-weight 600
+		color white
 	&--active
 		background $button-yellow
 		width 200px
@@ -72,21 +121,37 @@ h1
 		height 46px
 		width 100%
 		color white
+		background $button-yellow
+		font-weight 700
+	&--remove
+		background #f04e59
+		width auto
+		color white
+		margin-top 20px
+	&--add
+		background pink
 
 .wrapper
-	max-width 690px
+	max-width 700px
 	margin 0 auto
+	
+input:focus
+	outline none
+	border 2px solid $accent-color
 
 .dashboard
 	margin-top 20px
 	background $blue-pale
 	padding 50px
+	display flex
+	justify-content space-around
+	flex-wrap wrap
 
 .appointment
 	background $blue-pale
 	margin 30px 0 40px 0
 	h2 
-		color white
+		color black
 		padding 20px
 	&__schedule
 		display flex
@@ -111,14 +176,95 @@ h1
 			width 20%
 			margin 0 auto
 			text-align center
+
+.modal
+	background rgba(0,0,0,0.5)
+	position fixed
+	width 100%
+	height 100%
+	left 0
+	top 0
+	&--close
+		display none
+	&__box
+		background white
+		width 500px
+		position absolute
+		left 50%
+		top 50%
+		transform translate(-50%, -50%)
+		padding 20px
+		font-size 20px
+		.fa-times
+			float right
+			font-size 25px
+			color grey
+		h3 
+			padding 5px 0
+			color $accent-color
+			span 
+				color grey
+				font-weight $font-weight-thin
+				margin-left 8px
 				
 
+//Styles for BUTTON states ///
+.remove 
+	background $red
+.fa-minus
+	color $red
+.fa-plus
+	color $accent-color
+	
+//Styles for SELECTION //	
+.selection
+	margin-bottom 21px
+	display flex
+	flex-wrap wrap
+	justify-content space-between
+	padding 30px
+	background $blue-pale
+	&__block
+		width 32%
+		display: flex;
+		flex-direction: column;
+		margin-bottom 16px
+		-webkit-box-shadow: 0 3px 8px rgba(187, 187, 187, 0.3);
+		justify-content space-between
+		height 95px
+	&__duo 
+		display flex
+		position relative
+		&:nth-type(even)
+			margin-bottom 0
+		a 
+			width 100%
+		.button 
+			width: auto
+			padding 10px;
+			position relative
+		.button.addTime
+			text-align center
+		.fa
+			margin-right 4px
+			padding 14px 16px
+			background white
+
+//Styles for our GENERAL FORMS ///
 form
-	display flex 
-	justify-content space-around
 	.form--option
-		flex-basis 50%
-		max-width 275px
+		flex-basis 200px
+		flex-grow 1
+		margin 0 12px
+	.three--col 
+		display flex
+		width 32%
+		justify-content space-between
+		margin 0
+		label
+			width 40%
+			&.sml--col
+				width 28%
 	p
 		margin 12px 0 6px 0
 		color white
@@ -168,8 +314,85 @@ form
 		position absolute
 		left 13px
 		top 13px
-	.fa
+	.fa-cogs,
+	.fa-clock-o
 		font-size 26px
 		position absolute
 		left 12px
 		top 12px
+
+//Styles for SIGNIN / SIGNOUT FORMS ///
+form.selection__duo 
+	width 100%
+	margin-bottom 16px
+
+.textInput
+	padding 12px
+	border none
+	width 100%
+	
+.signIn__box
+	background $blue-pale
+	width 400px
+	margin 0 auto
+	margin-top 50px
+	padding 44px
+	h2 
+		text-align center
+		color $black
+		padding-bottom 25px
+		position relative
+		margin-bottom 25px
+		&:after
+			position absolute
+			content ""
+			width 100%
+			height 1px
+			bottom 0
+			left 0
+			background white
+		&:before
+			position absolute
+			content ""
+			width 14px
+			height 13px
+			background white
+			left 50%
+			bottom -7px
+			transform translateX(-50%) rotate(44deg)
+	input 
+		padding 10px
+		width 100%
+		border none
+		margin 10px 0
+		font-weight $font-weight-thin
+.timesGrid
+	width 100%
+	min-height 100px
+	display flex
+	justify-content flex-start
+	align-items flex-start
+	flex-wrap wrap
+	&__single
+		// padding 10px
+		padding 13px 18px
+		background $accent-color
+		// width 23.55%
+		margin 0 10px 10px 0
+		margin-right 10px
+		color white
+		// &:nth-child(4n+4)
+		// 	margin-right 0
+	
+		
+
+
+
+
+
+
+
+
+
+
+

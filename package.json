@@ -20,6 +20,7 @@
     "gulp-plumber": "^1.1.0",
     "gulp-stylus": "^2.6.0",
     "react": "^15.3.0",
+    "react-bootstrap-sweetalert": "^3.0.0",
     "react-dom": "^15.3.0",
     "react-router": "^2.6.1",
     "vinyl-buffer": "^1.0.0",
