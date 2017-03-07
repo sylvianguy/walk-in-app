@@ -14,7 +14,7 @@ const plumber = require('gulp-plumber');
 
 
 gulp.task('js', () => {
-	browserify('src/app.js')
+	return browserify('src/app.js')
 		.transform('babelify', {
 			presets: ['es2015','react']
 		})

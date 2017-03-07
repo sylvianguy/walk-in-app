@@ -15,6 +15,7 @@ export default class setupServices extends React.Component {
 			firebase.database().ref(`${user.uid}/services`)
 				.on('value', (res) => {
 					const allData = res.val();
+					console.log("what", res.val())
 					const allDataArray = [];
 					for(let key in allData) {
 						allDataArray.push({
