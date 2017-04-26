@@ -6,8 +6,15 @@ export default class Setup extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			employees: []
+			employees: [],
+			allTimeSlots: [],
+			handleModal: false,
+			employeeKey: '',
 		}
+		this.handleModal = this.handleModal.bind(this);
+		this.displayModal = this.displayModal.bind(this);
+		this.closeModal = this.closeModal.bind(this);
+		this.addTime = this.addTime.bind(this)
 	}
 	componentDidMount() {
 		//whenever a value is a changed, tell us about it!
@@ -15,7 +22,6 @@ export default class Setup extends React.Component {
 			const theCurrentUser =  firebase.auth().currentUser;
 			firebase.database().ref(`${theCurrentUser.uid}/employees`)
 				.on('value', (res) => {
-					console.log(res.val());
 					const userData = res.val();
 					const dataArray = [];
 
@@ -27,7 +33,61 @@ export default class Setup extends React.Component {
 						employees: dataArray
 					})
 				});
+
+			firebase.database().ref(`${theCurrentUser.uid}/times`)
+				.on('value', (res) => {
+					console.log("value", res.val())
+					this.setState({
+						allTimeSlots: res.val()
+					})
+				})
 		});
+	}
+
+	handleModal(employee) {
+		this.setState({
+			handleModal: true,
+			employeeKey: employee.key
+		})
+	}
+
+	closeModal() {
+		this.setState({
+			handleModal: false
+		})
+	}
+
+	addTime(value) {
+		console.log(value)
+		const employeeKey = this.state.employeeKey
+		const currentUser = firebase.auth().currentUser;
+		const currentUserId = currentUser.uid;
+		if(currentUser) {
+			firebase.database().ref(`${currentUserId}/employees/${employeeKey}/times`)
+				.push({
+					time: value,
+					booked: false
+				});
+		}
+	}
+
+	displayModal() {
+		const timeSlots = this.state.allTimeSlots;
+	
+		return (
+			<div className={this.state.handleModal === true ? 'modal' : 'modal--close'}>
+				<div className="modal__box">
+					<i onClick={this.closeModal} className="fa fa-times" aria-hidden="true"></i>
+					<ul className="timesGrid">
+						{timeSlots.map((item, i) => {
+							return <li key={`timeslot-${i}`} onClick={() => this.addTime(item)} className="timesGrid__single timesGrid__single--inactive">{item}</li>
+						})}
+					</ul>
+
+				</div>
+			</div>
+		)
+	
 	}
 
 	addEmployees(e) {
@@ -41,13 +101,10 @@ export default class Setup extends React.Component {
 		this.createEmployee.value = "";
 		let newEmployees = [];
 		const employeeName =  employee.name;
-		console.log("this current state", this.state.employees);
 		const currentState = this.state.employees;
 
 		newEmployees =  currentState;
 		const pushed = newEmployees.push(employeeName);
-
-		console.log(employeeName);
 	
 		this.setState({
 			employees: newEmployees
@@ -55,7 +112,6 @@ export default class Setup extends React.Component {
 
 		const theCurrentUser = firebase.auth().currentUser
 		const currentUserId = theCurrentUser.uid
-		console.log(currentUserId);
 
 		if(theCurrentUser) {
 			firebase.database().ref(`${currentUserId}/employees`)
@@ -87,12 +143,13 @@ export default class Setup extends React.Component {
 								<div className="selection__duo">
 										<i className="fa fa-plus"></i>
 									<a href='#'>
-										<h3 className="button addTime">Add time</h3>
+										<h3 className="button addTime" onClick={() => this.handleModal(employee)}>Add time</h3>
 									</a>
 								</div>
 							</div>
 						)
 					})}
+					<div>{this.displayModal()}</div>
 				</section>
 				<Link className="button button--next" to="/setupTime">NEXT</Link>
 			</div>

@@ -25,18 +25,29 @@ export default class Times extends React.Component {
 					.on('value', (res) => {
 						const results = res.val();
 						console.log("ressssss", results);
-				
-						// const key = results[key];
-						for (let key in results) {
 							this.setState({
-								currentTimeSlots: results[key]
+								currentTimeSlots: results
 							})
-
-						}
 					})
 
 			
 		});
+		function call(pagenum) {
+		    return $.ajax
+		}
+
+		const arrayOfCalls = []
+
+		for(i = 0; i < 4; i++) {
+		    arrayOfCalls.push(call(25))
+		}
+
+		Promise.All(arrayOfCalls)
+		    .then(res => {
+		        console.log(res);
+		    })
+
+
 		// firebase.auth().onAuthStateChanged((user) => {
 		// 	firebase.database().ref(`${theCurrentUser.uid}/employees`)
 		// 		.on('value', (res) => {
@@ -54,6 +65,8 @@ export default class Times extends React.Component {
 		// })	
 	}
 
+
+
 	addTimes(e) {
 		e.preventDefault();
 		// console.log("lala", this.state.timeSlots)
@@ -65,10 +78,11 @@ export default class Times extends React.Component {
 		//add times in database
 
 
-		// if(currentUser) {
-		// 	firebase.database().ref(`${currentUser.uid}/times`)
-		// 		.push(this.state.timeSlots)
-		// }
+		if(currentUser) {
+			firebase.database().ref(`${currentUser.uid}/times`)
+
+				.set(this.state.timeSlots)
+		}
 	}
 	getStartTime(e) {
 		console.log("this working?")
@@ -91,16 +105,14 @@ export default class Times extends React.Component {
 		const endTime = this.state.getEndTime;
 		const times = [];
 		var ap = ['AM', 'PM']
-		// console.log(incrementOption);
+
 		//get the start and end number i.e 10:00am - 9:00pm
 		let done = true;
 		let i = 0;
 		let startMin = 0;
 		let hour = startTime;
 		while(done) {
-			// startTime = startTime + i;
 			startMin = startMin + incrementBy;
-			console.log("what is", startMin)
 			if(startMin >= 60) {
 				startMin = 0;
 				hour++;
@@ -111,9 +123,7 @@ export default class Times extends React.Component {
 				done = false;
 			}
 			i++;
-			//then make start min - 60
 		}
-		console.log('times', times);
 		this.setState({
 			timeSlots: times
 		})

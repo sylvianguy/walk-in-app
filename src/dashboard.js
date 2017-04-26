@@ -22,6 +22,8 @@ export default class Dashboard extends React.Component {
 			personId: "",
 			alert: null
 		}
+		this.customerName = this.customerName.bind(this)
+		this.bookAppointment = this.bookAppointment.bind(this)
 	}
 
 	componentDidMount() {
@@ -78,24 +80,31 @@ export default class Dashboard extends React.Component {
 		})
 	}
 
-	getCustomerName(e) {
-		e.preventDefault();
-
-		//get customer's name
-		const customerName = {
-			name: this.createCustomer.value
-		}
-
+	customerName(e) {
+		console.log(e.target.value);
 		this.setState({
-			customerName: customerName.name
+			customerName: e.target.value
 		})
-
-		const stylistInfo = this.state.stylists;
-		this.bookAppointment();
-
-	//save customer's name under stylist
-
 	}
+
+	// getCustomerName(e) {
+	// 	e.preventDefault();
+
+	// 	//get customer's name
+	// 	const customerName = {
+	// 		name: this.createCustomer.value
+	// 	}
+
+	// 	this.setState({
+	// 		customerName: customerName.name
+	// 	})
+
+	// 	const stylistInfo = this.state.stylists;
+	// 	// this.bookAppointment();
+
+	// //save customer's name under stylist
+
+	// }
 	removeAppointment(removedInfo) {
 		const stylists = this.state.stylists;
 		const currentUser = this.state.currentUser;
@@ -116,7 +125,8 @@ export default class Dashboard extends React.Component {
 		})
 	}
 
-	bookAppointment() {
+	bookAppointment(e) {
+		e.preventDefault();
 		const selectedObj = this.state.selectedObj
 		const currentUser = this.state.currentUser;
 		const currentUserId = this.state.currentUserId;
@@ -128,7 +138,7 @@ export default class Dashboard extends React.Component {
 		// console.log("chosen time",service)
 			if(currentUser) {
 				firebase.database().ref(`${currentUserId}/employees/${selectedObj.key}/times/${chosenTime}/bookingInfo`).set({
-					customerName: customerName,
+					customerName,
 					service,
 					notes
 				});
@@ -263,12 +273,9 @@ export default class Dashboard extends React.Component {
 	}
 
 	closeModal() {
-		console.log("is this working?")
-
 		this.setState({
 			removeModal: true
 		})
-
 	}
 
 	bookingModal(e,person,bookedTime) {
@@ -287,7 +294,7 @@ export default class Dashboard extends React.Component {
 			if (bookedTimes[key].time === time) {
 				const bookingInfo = bookedTimes[key].bookingInfo;
 				const customerName = bookingInfo.customerName;
-				// console.log(bookingInfo)
+				console.log("booking info", bookingInfo)
 				dataArray.push({
 					stylistName: stylistName,
 					clientName: bookingInfo.customerName,
@@ -326,11 +333,11 @@ export default class Dashboard extends React.Component {
 	render() {
 		return (
 			<div>
-				<form className="dashboard wrapper" onSubmit={(e) => this.getCustomerName.call(this, e)}>
+				<form className="dashboard wrapper" onSubmit={(e) => this.bookAppointment(e)}>
 					<div className="form--option">
 						<label>
 							<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" enableBackground="new 0 0 100 100" xmlSpace="preserve"><g><path d="M50,10.221c-11.05,0-20.039,8.989-20.039,20.039S38.95,50.299,50,50.299S70.04,41.31,70.04,30.26S61.05,10.221,50,10.221   L50,10.221z"/><path d="M49.999,55.055c-19.351,0-35.094,15.743-35.094,35.094h70.189C85.095,70.798,69.351,55.055,49.999,55.055z"/></g></svg>
-							<input placeholder="Customer's name" type="text" ref={ref => this.createCustomer = ref} required/>
+							<input placeholder="Customer's name" type="text" onChange={(e) => this.customerName(e)} required/>
 						</label>
 						<label>
 							<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" enableBackground="new 0 0 100 100" xmlSpace="preserve"><g><path d="M50,10.221c-11.05,0-20.039,8.989-20.039,20.039S38.95,50.299,50,50.299S70.04,41.31,70.04,30.26S61.05,10.221,50,10.221   L50,10.221z"/><path d="M49.999,55.055c-19.351,0-35.094,15.743-35.094,35.094h70.189C85.095,70.798,69.351,55.055,49.999,55.055z"/></g></svg>

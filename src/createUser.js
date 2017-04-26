@@ -10,18 +10,19 @@ export default class createUser extends React.Component {
 			password: this.createPassword.value,
 			confirm: this.confirmPassword.value
 		}
-		console.log(user.name);
-		console.log(user.email);
-		console.log(user.password);
 		
 		if(user.password === user.confirm) {
 			firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
 				.then((data) => {
 					console.log(data);
 					var userId = data.uid;
-					firebase.database().ref(userId).set({salonName:user.name}) 
+					firebase.database().ref(userId).set({
+						salonName:user.name,
+						password: user.password,
+						email: user.email
+					}) 
 					//push to a new router 
-					this.context.router.push('/setup');
+					this.context.router.push('/times');
 
 				})
 				.catch(function(error) {

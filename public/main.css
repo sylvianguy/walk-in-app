@@ -299,6 +299,7 @@ input:focus {
   justify-content: center;
   align-items: center;
   border-top: 2px solid #fff;
+  min-height: 74px;
 }
 .appointment__schedule ul {
   display: flex;
@@ -336,7 +337,7 @@ input:focus {
 }
 .modal__box {
   background: #fff;
-  width: 500px;
+  width: 559px;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -553,4 +554,8 @@ form.selection__duo {
   margin: 0 10px 10px 0;
   margin-right: 10px;
   color: #fff;
+}
+.timesGrid__single--inactive {
+  background: #e6e7e8;
+  color: #808080;
 }
