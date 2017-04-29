@@ -20,10 +20,16 @@ export default class Dashboard extends React.Component {
 			bookingInfo: [],
 			removeModal: false,
 			personId: "",
-			alert: null
+			alert: null,
+			addAppModal: false,
+			toggleMenu: false
 		}
 		this.customerName = this.customerName.bind(this)
 		this.bookAppointment = this.bookAppointment.bind(this)
+		this.addAppointment = this.addAppointment.bind(this)
+		this.closeAppModal = this.closeAppModal.bind(this)
+		this.showMenu = this.showMenu.bind(this)
+		this.hideMenu = this.hideMenu.bind(this)
 	}
 
 	componentDidMount() {
@@ -79,7 +85,17 @@ export default class Dashboard extends React.Component {
 
 		})
 	}
-
+	showMenu() {
+		console.log("mousing over");
+		this.setState({
+			toggleMenu: true
+		})
+	}
+	hideMenu() {
+		this.setState({
+			toggleMenu: false
+		})
+	}
 	customerName(e) {
 		console.log(e.target.value);
 		this.setState({
@@ -87,24 +103,19 @@ export default class Dashboard extends React.Component {
 		})
 	}
 
-	// getCustomerName(e) {
-	// 	e.preventDefault();
+	closeAppModal() {
+		this.setState({
+			addAppModal: false,
+			toggleMenu: false
+		})
+	}
 
-	// 	//get customer's name
-	// 	const customerName = {
-	// 		name: this.createCustomer.value
-	// 	}
-
-	// 	this.setState({
-	// 		customerName: customerName.name
-	// 	})
-
-	// 	const stylistInfo = this.state.stylists;
-	// 	// this.bookAppointment();
-
-	// //save customer's name under stylist
-
-	// }
+	addAppointment() {
+		this.setState({
+			addAppModal: true,
+			toggleMenu: true
+		})
+	}
 	removeAppointment(removedInfo) {
 		const stylists = this.state.stylists;
 		const currentUser = this.state.currentUser;
@@ -323,9 +334,9 @@ export default class Dashboard extends React.Component {
 			
 	}
 	hideAlert() {
-	console.log('Hiding alert...');
 		this.setState({
-		  alert: null
+		  alert: null,
+		  addAppModal: false
 		});
 	}
 
@@ -333,49 +344,52 @@ export default class Dashboard extends React.Component {
 	render() {
 		return (
 			<div>
-				<form className="dashboard wrapper" onSubmit={(e) => this.bookAppointment(e)}>
-					<div className="form--option">
-						<label>
-							<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" enableBackground="new 0 0 100 100" xmlSpace="preserve"><g><path d="M50,10.221c-11.05,0-20.039,8.989-20.039,20.039S38.95,50.299,50,50.299S70.04,41.31,70.04,30.26S61.05,10.221,50,10.221   L50,10.221z"/><path d="M49.999,55.055c-19.351,0-35.094,15.743-35.094,35.094h70.189C85.095,70.798,69.351,55.055,49.999,55.055z"/></g></svg>
-							<input placeholder="Customer's name" type="text" onChange={(e) => this.customerName(e)} required/>
-						</label>
-						<label>
-							<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" enableBackground="new 0 0 100 100" xmlSpace="preserve"><g><path d="M50,10.221c-11.05,0-20.039,8.989-20.039,20.039S38.95,50.299,50,50.299S70.04,41.31,70.04,30.26S61.05,10.221,50,10.221   L50,10.221z"/><path d="M49.999,55.055c-19.351,0-35.094,15.743-35.094,35.094h70.189C85.095,70.798,69.351,55.055,49.999,55.055z"/></g></svg>
-							<select defaultValue="default" onChange={(e) => this.getAvailability.call(this)} ref={ref => this.selectedStylist = ref} >
-								<option value="default">Select a stylist</option>
-								{this.state.stylists.map((item, i) => {
-									return (
-										<option key={i}>{item.name}</option>
-									)
-								})}
-							</select>
-						</label>
-						<label>
-							<i className="fa fa-cogs" aria-hidden="true"></i>
-							<select onChange={() => this.getServices.call(this)} ref={ref => this.selectedService = ref}>
-								{this.state.services.map((item, i) => {
-									return (
-										<option key={i}>{item.serviceName}</option>
-									)
-								})}
-							</select>
-						</label>
-						<input className="button button--next button--submit" type="submit" onClick={() => this.sweetAlert.call(this)} value="Book it"/>
-
-					</div>
-					<div className="form--option">
-						<label>
-							<i className="fa fa-clock-o" aria-hidden="true"></i>
-							<select defaultValue="default" onChange={() => this.chooseTime.call(this)} ref={ref => this.selectedTimes = ref}>
-								<option value="default">Select a time</option>
-								{this.renderTimes()}	
-							</select>
-						</label>
-						<p>Additional Notes</p>
-						<textarea type="text" ref={ref => this.createNote = ref} />
-					</div>
-				</form>
 				<section className="appointment">
+					<div className={this.state.addAppModal ? "form__container show" : "form__container hide"}>
+						<form className="dashboard wrapper" onSubmit={(e) => this.bookAppointment(e)}>
+							<i className="fa fa-times" onClick={() => this.closeAppModal()}></i>
+							<div className="form--option">
+								<label>
+									<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" enableBackground="new 0 0 100 100" xmlSpace="preserve"><g><path d="M50,10.221c-11.05,0-20.039,8.989-20.039,20.039S38.95,50.299,50,50.299S70.04,41.31,70.04,30.26S61.05,10.221,50,10.221   L50,10.221z"/><path d="M49.999,55.055c-19.351,0-35.094,15.743-35.094,35.094h70.189C85.095,70.798,69.351,55.055,49.999,55.055z"/></g></svg>
+									<input placeholder="Customer's name" type="text" onChange={(e) => this.customerName(e)} required/>
+								</label>
+								<label>
+									<svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" enableBackground="new 0 0 100 100" xmlSpace="preserve"><g><path d="M50,10.221c-11.05,0-20.039,8.989-20.039,20.039S38.95,50.299,50,50.299S70.04,41.31,70.04,30.26S61.05,10.221,50,10.221   L50,10.221z"/><path d="M49.999,55.055c-19.351,0-35.094,15.743-35.094,35.094h70.189C85.095,70.798,69.351,55.055,49.999,55.055z"/></g></svg>
+									<select defaultValue="default" onChange={(e) => this.getAvailability.call(this)} ref={ref => this.selectedStylist = ref} >
+										<option value="default">Select a stylist</option>
+										{this.state.stylists.map((item, i) => {
+											return (
+												<option key={i}>{item.name}</option>
+											)
+										})}
+									</select>
+								</label>
+								<label>
+									<i className="fa fa-cogs" aria-hidden="true"></i>
+									<select onChange={() => this.getServices.call(this)} ref={ref => this.selectedService = ref}>
+										{this.state.services.map((item, i) => {
+											return (
+												<option key={i}>{item.serviceName}</option>
+											)
+										})}
+									</select>
+								</label>
+								
+							</div>
+							<div className="form--option">
+								<label>
+									<i className="fa fa-clock-o" aria-hidden="true"></i>
+									<select defaultValue="default" onChange={() => this.chooseTime.call(this)} ref={ref => this.selectedTimes = ref}>
+										<option value="default">Select a time</option>
+										{this.renderTimes()}	
+									</select>
+								</label>
+								<p>Additional Notes</p>
+								<textarea type="text" ref={ref => this.createNote = ref} />
+								<input className="button button--next button--submit" type="submit" onClick={() => this.sweetAlert.call(this)} value="Book it"/>
+							</div>
+						</form>
+					</div>
 					<div className="wrapper">
 						<h2>Appointment Schedule</h2>
 						{this.getTimes()}
@@ -383,6 +397,14 @@ export default class Dashboard extends React.Component {
 					<div>{this.displayModal()}</div>
 					{this.state.alert}
 				</section>
+				<div className="addAppointment" onMouseEnter={this.showMenu} onClick={() => this.addAppointment()}><i className="fa fa-plus"></i></div>
+				<div className="menu__container" onMouseEnter={this.showMenu} onMouseLeave={this.hideMenu}>
+					<ul className={this.state.toggleMenu ? "menu show" : "menu hide"}>
+						<li><Link to="/times"><i className="fa fa-clock-o"></i></Link></li>
+						<li><Link to="/setup"><i className="fa fa-user-plus"></i></Link></li>
+						<li><Link to="/services"><i className="fa fa-wrench"></i></Link></li>
+					</ul>
+				</div>
 			</div>
 		)
 

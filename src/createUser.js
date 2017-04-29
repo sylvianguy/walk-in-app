@@ -17,7 +17,7 @@ export default class createUser extends React.Component {
 					console.log(data);
 					var userId = data.uid;
 					firebase.database().ref(userId).set({
-						salonName:user.name,
+						name:user.name,
 						password: user.password,
 						email: user.email
 					}) 

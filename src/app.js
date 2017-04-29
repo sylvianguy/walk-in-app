@@ -36,11 +36,13 @@ class App extends React.Component {
 	}
 
 	render() {
-		// const header = <Header history={this.props.history} />
+		const header = <Header history={this.props.history} />
 		return (
-			
-			<div className="wrapper">
-				{this.props.children}
+			<div>
+				{header}
+				<div className="wrapper">
+					{this.props.children}
+				</div>
 			</div>
 
 		)

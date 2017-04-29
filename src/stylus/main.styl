@@ -39,6 +39,7 @@ body
 	font-size $font-size-sm
 	font-weight $font-weight-thin
 	letter-spacing 1.3px
+	position relative
 	
 
 li 
@@ -59,7 +60,18 @@ h3
 	font-family $font-lato
 
 header 
-	background #28303d
+	background-color: rgba(255,255,255,0.99);
+	border-bottom: 1px solid rgba(0,0,0,0.07);
+	box-shadow: 0px 3px 8px -4px rgba(0,0,0,0.15);
+	padding 8px 25px
+
+.mainHeader__block.wrapper
+	display flex
+	justify-content space-between
+	align-items center
+.mainHeader__cta
+	a 
+		margin-left 15px
 
 button 
 	border none
@@ -72,9 +84,26 @@ h1
 	text-align center
 	color white
 	letter-spacing 2px
-	font-family $font-playfair
-	font-weight $playfair-thin
-	font-size 2rem
+	font-family: 'Raleway', sans-serif;
+	color $accent-color
+	// background $accent-color
+	// font-family $font-playfair
+	font-weight 300
+	font-size 1.5rem
+	position relative
+	z-index 0
+	&:before 
+		content ""
+		// background $accent-color 
+		border 2px solid $accent-color
+		width 35px
+		height 35px
+		position absolute
+		left 48%
+		top 49%
+		transform translate(-50%, -50%)
+		z-index -1
+		border-radius 50%
 
 h2 
 	font-family $font-playfair
@@ -95,7 +124,7 @@ h3.subheading
 		color $accent-color
 
 .wrapper 
-	max-width 800px
+	max-width 880px
 	margin 0 auto
 	margin-top 30px
 
@@ -123,6 +152,7 @@ h3.subheading
 		color white
 		background $button-yellow
 		font-weight 700
+		margin-top 20px
 	&--remove
 		background #f04e59
 		width auto
@@ -130,26 +160,63 @@ h3.subheading
 		margin-top 20px
 	&--add
 		background pink
+	&--round
+		background $accent-color
+		border 1px solid $accent-color
+		padding: 9px 13px;
+		border-radius: 17px;
+		font-size 1.3rem
+		transition all 0.3s
+		color white
+		&:hover
+			background white
+			border 1px solid $accent-color
+			color $accent-color
+			cursor pointer
 
 .wrapper
-	max-width 700px
+	max-width 880px
 	margin 0 auto
 	
 input:focus
 	outline none
 	border 2px solid $accent-color
 
+.form__container
+	position absolute
+	left 0
+	top 0
+	bottom 0
+	right 0
+	height 330px
+	background $accent-color
+	&.hide 
+		display none
+	&.show 
+		display block
+
 .dashboard
-	margin-top 20px
+	margin-top 60px
 	background $blue-pale
-	padding 50px
-	display flex
-	justify-content space-around
-	flex-wrap wrap
+	position relative
+	padding: 83px 40px 111px;
+
+	.fa-times
+		position absolute
+		right 20px
+		top 20px
+		// float right
+		// margin-bottom 20px
+		// border 2px solid $accent-color
+		font-size 2.5rem
+		color $accent-color
+		padding 12px
+		// border-radius 50%
 
 .appointment
 	background $blue-pale
-	margin 30px 0 40px 0
+	margin 50px 0 40px 0
+	border-radius: 7px;
 	h2 
 		color black
 		padding 20px
@@ -158,21 +225,21 @@ input:focus
 		justify-content center
 		align-items center
 		border-top 2px solid white
-		min-height 74px
 		ul
 			display flex
 			width 77%
 			padding 14px 10px
 			border-left 2px solid white
-		ul li 
-			margin 0 4px
-			padding 14px 10px
-			background $accent-color
-			width 80px
-			&:hover
-				cursor pointer
-			a 
-				color white
+			min-height 74px
+			li 
+				margin 0 4px
+				padding 14px 10px
+				background $accent-color
+				width 80px
+				&:hover
+					cursor pointer
+				a 
+					color white
 		h3 
 			width 20%
 			margin 0 auto
@@ -260,7 +327,7 @@ form
 		margin 0 12px
 	.three--col 
 		display flex
-		width 32%
+		width 100%
 		justify-content space-between
 		margin 0
 		label
@@ -335,10 +402,11 @@ form.selection__duo
 	
 .signIn__box
 	background $blue-pale
-	width 400px
+	max-width 490px
 	margin 0 auto
 	margin-top 50px
-	padding 44px
+	padding 44px 44px 90px 44px
+	position relative
 	h2 
 		text-align center
 		color $black
@@ -368,6 +436,12 @@ form.selection__duo
 		border none
 		margin 10px 0
 		font-weight $font-weight-thin
+	input[type="submit"] 
+		position absolute
+		bottom 0
+		left 0
+		width 100%
+		margin 0
 .timesGrid
 	width 100%
 	min-height 100px
@@ -383,17 +457,64 @@ form.selection__duo
 		margin 0 10px 10px 0
 		margin-right 10px
 		color white
-		// &:nth-child(4n+4)
-		// 	margin-right 0
 		&--inactive
 			background #E6E7E8
 			color grey
 	
-		
+.addAppointment
+	width 60px
+	height 60px
+	background $button-yellow
+	position fixed
+	right 50px
+	bottom 50px
+	border-radius 50%
+	display flex
+	justify-content center
+	align-items center
+	box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
+	.fa-plus
+		color white
+		font-size 2.5rem
+		transition all 0.3s
+	&:hover
+		.fa-plus
+			transform rotate(45deg)
 
-
-
-
+.menu__container
+	position fixed
+	right 78px
+	bottom 120px
+	.menu
+		display flex
+		flex-direction column
+		justify-content flex-end
+		width 21px
+		transition all 0.5s
+		li 
+			margin-right 30px
+			margin-top 11px
+			transition all 0.3s
+			&:hover 
+				.fa 
+					background #68b1b2
+					cursor pointer
+					
+			.fa 
+				background: $accent-color
+				width: 37px
+				height: 37px
+				border-radius: 50%
+				padding-top: 11px
+				padding-left: 2px
+				color white
+				transition all 0.3s
+.hide 
+	opacity 0
+	visibility hidden
+.show 
+	opacity 1
+	visibility visible
 
 
 
