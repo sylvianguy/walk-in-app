@@ -11,7 +11,6 @@ export default class Header extends React.Component{
 	}
 	componentDidMount() {
 		firebase.auth().onAuthStateChanged((user) => { 
-			console.log("user", user)
 			var userId = user.uid
 			firebase.database().ref(userId)
 				.on('value', (res) => {
@@ -38,6 +37,10 @@ export default class Header extends React.Component{
 		firebase.auth().signOut()
 			.then(() => {
 				console.log("success");
+				this.setState({
+					signedIn: false
+				})
+				this.context.router.push('/login');
 			})
 			.catch((err) => {
 				console.log("error");
@@ -52,10 +55,14 @@ export default class Header extends React.Component{
 					<h1>W</h1>
 					<div className="mainHeader__cta">
 						<Link to="/createUser" className="button--round">Create Account</Link>
-						{this.state.signedIn === false ? loggedOut : loggedIn}
+						{this.state.signedIn ? loggedIn : loggedOut}
 					</div>
 				</div>
 			</header>
 		)
 	}
+}
+
+Header.contextTypes = {
+	router: React.PropTypes.object
 }
