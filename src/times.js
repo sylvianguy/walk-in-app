@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+import Menu from './menu';
 
 export default class Times extends React.Component {
 	constructor() {
@@ -8,13 +9,16 @@ export default class Times extends React.Component {
 			getStartTime: '',
 			getEndTime: '',
 			timeSlots: [],
-			currentTimeSlots: []
+			currentTimeSlots: [],
+			toggleMenu: false
 		}
 		this.increment = this.increment.bind(this);
 		this.getStartTime = this.getStartTime.bind(this);
 		this.getEndTime = this.getEndTime.bind(this);
 		this.renderTimes = this.renderTimes.bind(this);
 		this.addTimes = this.addTimes.bind(this);
+		this.showMenu = this.showMenu.bind(this)
+		this.hideMenu = this.hideMenu.bind(this)
 	}
 	componentDidMount() {
 		firebase.auth().onAuthStateChanged((user) => {
@@ -65,6 +69,17 @@ export default class Times extends React.Component {
 		// })	
 	}
 
+	showMenu() {
+		this.setState({
+			toggleMenu: true
+		})
+	}
+
+	hideMenu() {
+		this.setState({
+			toggleMenu: false
+		})
+	}
 
 
 	addTimes(e) {
@@ -196,6 +211,7 @@ export default class Times extends React.Component {
 					<input className="button button--next" type="submit" value="Save" />
 					<Link className="button button--next" to="/setup">Next</Link>
 				</form>
+				<Menu showMenu={this.showMenu} hideMenu={this.hideMenu} toggleMenu={this.state.toggleMenu} addAppointment={this.showMenu}/>
 			</div>
 		)
 	}

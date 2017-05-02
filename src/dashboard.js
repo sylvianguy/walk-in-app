@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import SweetAlert from 'react-bootstrap-sweetalert';
+import Menu from './menu';
 // import {}
 
 export default class Dashboard extends React.Component {
@@ -391,20 +392,14 @@ export default class Dashboard extends React.Component {
 						</form>
 					</div>
 					<div className="wrapper">
-						<h2>Appointment Schedule</h2>
+						<h2>Appointment Schedule </h2>
+
 						{this.getTimes()}
 					</div>
 					<div>{this.displayModal()}</div>
 					{this.state.alert}
 				</section>
-				<div className="addAppointment" onMouseEnter={this.showMenu} onClick={() => this.addAppointment()}><i className="fa fa-plus"></i></div>
-				<div className="menu__container" onMouseEnter={this.showMenu} onMouseLeave={this.hideMenu}>
-					<ul className={this.state.toggleMenu ? "menu show" : "menu hide"}>
-						<li><Link to="/times"><i className="fa fa-clock-o"></i></Link></li>
-						<li><Link to="/setup"><i className="fa fa-user-plus"></i></Link></li>
-						<li><Link to="/services"><i className="fa fa-wrench"></i></Link></li>
-					</ul>
-				</div>
+				<Menu showMenu={this.showMenu} hideMenu={this.hideMenu} toggleMenu={this.state.toggleMenu} addAppointment={this.addAppointment}/>
 			</div>
 		)
 
