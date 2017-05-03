@@ -214,6 +214,9 @@ button {
   color: #fff;
   padding: 10px 31px;
 }
+input {
+  border-radius: 4px;
+}
 h1 {
   padding: 15px;
   text-align: center;
@@ -232,8 +235,8 @@ h1:before {
   width: 35px;
   height: 35px;
   position: absolute;
-  left: 48%;
-  top: 49%;
+  left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
   z-index: -1;
   border-radius: 50%;
@@ -285,7 +288,7 @@ h3.subheading {
   height: 46px;
   width: 100%;
   color: #fff;
-  background: #fbd20a;
+  background: #71d2d4;
   font-weight: 700;
   margin-top: 20px;
 }
@@ -566,38 +569,45 @@ form.selection__duo {
   width: 100%;
 }
 .signIn__box {
-  background: #e1e7ea;
   max-width: 490px;
   margin: 0 auto;
-  margin-top: 50px;
-  padding: 44px 44px 90px 44px;
+  padding: 16px 44px 26px 44px;
   position: relative;
+}
+.signIn__box .signIn__box--buttons {
+  display: flex;
+  justify-content: space-between;
+}
+.signIn__box .signIn__box--social {
+  position: relative;
+}
+.signIn__box .signIn__box--social p {
+  color: #71d2d4;
+  background: #fff;
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  left: 50%;
+  top: 8px;
+  width: 45px;
+  text-align: center;
+  transform: translateX(-50%);
+}
+.signIn__box .signIn__box--social:after {
+  content: "";
+  background: #ebebeb;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 100%;
+  height: 2px;
 }
 .signIn__box h2 {
   text-align: center;
-  color: #454648;
-  padding-bottom: 25px;
+  color: #808080;
+  padding-bottom: 5px;
   position: relative;
   margin-bottom: 25px;
-}
-.signIn__box h2:after {
-  position: absolute;
-  content: "";
-  width: 100%;
-  height: 1px;
-  bottom: 0;
-  left: 0;
-  background: #fff;
-}
-.signIn__box h2:before {
-  position: absolute;
-  content: "";
-  width: 14px;
-  height: 13px;
-  background: #fff;
-  left: 50%;
-  bottom: -7px;
-  transform: translateX(-50%) rotate(44deg);
 }
 .signIn__box input {
   padding: 10px;
@@ -605,13 +615,32 @@ form.selection__duo {
   border: none;
   margin: 10px 0;
   font-weight: 300;
+  border: 1px solid #808080;
 }
-.signIn__box input[type="submit"] {
-  position: absolute;
+.signIn__box .button--login {
+  background: #71d2d4;
   bottom: 0;
   left: 0;
-  width: 100%;
-  margin: 0;
+  width: 48%;
+  margin-top: 10px;
+  border: none;
+  color: #fff;
+}
+.signIn__box .button--submit-bare {
+  width: 48%;
+  background: none;
+  border: 2px solid #71d2d4;
+  color: #71d2d4;
+}
+.signIn__box .button--google {
+  background: #d23f31;
+  border: none;
+  color: #fff;
+  margin-top: 29px;
+}
+.signIn__box .button--facebook {
+  background: #3b5998;
+  color: #fff;
 }
 .timesGrid {
   width: 100%;
@@ -691,4 +720,57 @@ form.selection__duo {
 .show {
   opacity: 1;
   visibility: visible;
+}
+.welcome {
+  background: #e1e7ea;
+  box-shadow: 5px 5px 8px -4px rgba(0,0,0,0.15);
+  margin-top: 40px;
+}
+.welcome .welcome--wrapper {
+  display: flex;
+}
+.welcome .welcome--right {
+  width: 50%;
+  padding: 40px;
+  background-image: url("/src/assets/coffee-shop.jpg");
+  background-repeat: no-repeat;
+  background-position: center right;
+  background-size: cover;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+}
+.welcome .welcome--right h2 {
+  color: #fff;
+}
+.welcome .welcome--right h1 {
+  font-size: 3rem;
+}
+.welcome .welcome--right h1:before {
+  width: 65px;
+  height: 65px;
+}
+.welcome .welcome--right:before {
+  content: "";
+  background: rgba(58,86,144,0.8);
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+.welcome .welcome--left {
+  width: 50%;
+  padding: 7px;
+  background: #fff;
+}
+.welcome h2 {
+  font-size: 4rem;
+  position: relative;
+  z-index: 1;
+  line-height: 1.3;
+  margin-top: 20px;
 }

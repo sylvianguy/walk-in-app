@@ -40,7 +40,7 @@ export default class Header extends React.Component{
 				this.setState({
 					signedIn: false
 				})
-				this.context.router.push('/login');
+				this.context.router.push('/');
 			})
 			.catch((err) => {
 				console.log("error");
