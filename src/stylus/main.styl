@@ -10,7 +10,10 @@ input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer;}b
 	Main Header
 */
 
-//**** variables ****//
+
+//*************************************//
+		//variables//
+//************************************//
 
 $blue-white = #f7f7f7
 $blue-pale = #e1e7ea
@@ -26,7 +29,11 @@ $font-size-sm = 1.7rem
 $font-weight-thin = 300
 $playfair-thin = 400
 
-//********************
+
+
+//*************************************//
+		//Base Element Styles//
+//************************************//
 
 html
 	font-size 64.5%
@@ -69,6 +76,8 @@ header
 	justify-content space-between
 	align-items center
 .mainHeader__cta
+	display flex
+	align-items center
 	a 
 		margin-left 15px
 
@@ -110,6 +119,10 @@ h2
 	font-style italic
 	font-weight $playfair-thin
 
+h4 
+	margin 0
+	color grey
+
 h3.subheading 
 	margin-bottom 20px
 	width 100%
@@ -125,7 +138,11 @@ h3.subheading
 .wrapper 
 	max-width 880px
 	margin 0 auto
-	margin-top 30px
+	// margin-top 30px
+
+//*************************************//
+		//Button Styles//
+//************************************//
 
 .button 
 	background white
@@ -134,6 +151,7 @@ h3.subheading
 	text-align center
 	border none
 	font-weight $font-weight-thin
+	transition all 0.3s
 	&--next
 		background $button-yellow
 		float right
@@ -169,18 +187,31 @@ h3.subheading
 		transition all 0.3s
 		color white
 		&:hover
-			background white
+			background darken($accent-color, 15)
 			border 1px solid $accent-color
-			color $accent-color
 			cursor pointer
+	&--round-createAcc
+		background none
+		color $accent-color
+		&:hover
+			background $accent-color
+			border 1px solid $accent-color
+			color white
+			cursor pointer
+.remove 
+	background $red
+.fa-minus
+	color $red
+.fa-plus
+	color $accent-color
 
-.wrapper
-	max-width 880px
-	margin 0 auto
-	
 input:focus
 	outline none
 	border 2px solid $accent-color
+
+//*************************************//
+		//Dashboard Styles//
+//************************************//
 
 .form__container
 	position absolute
@@ -241,6 +272,10 @@ input:focus
 			margin 0 auto
 			text-align center
 
+//*************************************//
+		//Modal for the Dashboard
+//************************************//
+
 .modal
 	background rgba(0,0,0,0.5)
 	position fixed
@@ -273,15 +308,10 @@ input:focus
 				margin-left 8px
 				
 
-//Styles for BUTTON states ///
-.remove 
-	background $red
-.fa-minus
-	color $red
-.fa-plus
-	color $accent-color
-	
-//Styles for SELECTION //	
+//*************************************//
+		//Selection Styles//
+//************************************//
+
 .selection
 	margin-bottom 21px
 	display flex
@@ -315,7 +345,10 @@ input:focus
 			padding 14px 16px
 			background white
 
-//Styles for our GENERAL FORMS ///
+//*************************************//
+		//General Form Styles//
+//************************************//
+
 form
 	.form--option
 		flex-basis 200px
@@ -386,7 +419,6 @@ form
 		left 12px
 		top 12px
 
-//Styles for SIGNIN / SIGNOUT FORMS ///
 form.selection__duo 
 	width 100%
 	margin-bottom 16px
@@ -395,6 +427,10 @@ form.selection__duo
 	padding 12px
 	border none
 	width 100%
+
+//*************************************//
+	//Sign In / Sign Out Styles//
+//************************************//
 	
 .signIn__box
 	max-width: 490px;
@@ -439,7 +475,7 @@ form.selection__duo
 		border: none;
 		margin: 10px 0;
 		font-weight: 300;
-		border 1px solid grey
+		border 2px solid rgb(235, 235, 235)
 	.button--login
 		background $accent-color
 		bottom 0
@@ -448,11 +484,17 @@ form.selection__duo
 		margin-top 10px
 		border none
 		color white
+		&:hover
+			background darken($accent-color, 15)
+			
 	.button--submit-bare
 		width 48%
 		background none
 		border 2px solid $accent-color
 		color $accent-color
+		&:hover
+			background $accent-color
+			color white
 	.button--google 
 		background #d23f31
 		border none
@@ -479,7 +521,11 @@ form.selection__duo
 		&--inactive
 			background #E6E7E8
 			color grey
-	
+
+//*************************************//
+		//Menu button styles//
+//************************************//
+
 .addAppointment
 	width 60px
 	height 60px
@@ -535,11 +581,12 @@ form.selection__duo
 	opacity 1
 	visibility visible
 
-//Welcome Section//
+//*************************************//
+		//Welcome Section//
+//************************************//
 .welcome 
 	background: $blue-pale;
 	box-shadow: 5px 5px 8px -4px rgba(0,0,0,0.15);
-	// padding 100px 100px
 	margin-top 40px
 	.welcome--wrapper
 		display flex
@@ -573,17 +620,20 @@ form.selection__duo
 			right 0
 			
 	.welcome--left
-		// min-height 400px
 		width 50%
 		padding 7px
 		background white
+		p 
+			color grey
+			text-align center
+			padding-bottom 10px
 	h2
 		font-size 4rem
 		position relative
 		z-index 1
 		line-height 1.3
 		margin-top 20px
-		// color white
+		margin-bottom 0
 
 
 

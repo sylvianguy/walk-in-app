@@ -205,6 +205,10 @@ header {
   justify-content: space-between;
   align-items: center;
 }
+.mainHeader__cta {
+  display: flex;
+  align-items: center;
+}
 .mainHeader__cta a {
   margin-left: 15px;
 }
@@ -247,6 +251,10 @@ h2 {
   font-style: italic;
   font-weight: 400;
 }
+h4 {
+  margin: 0;
+  color: #808080;
+}
 h3.subheading {
   margin-bottom: 20px;
   width: 100%;
@@ -261,7 +269,6 @@ h3.subheading {
 .wrapper {
   max-width: 880px;
   margin: 0 auto;
-  margin-top: 30px;
 }
 .button {
   background: #fff;
@@ -270,6 +277,7 @@ h3.subheading {
   text-align: center;
   border: none;
   font-weight: 300;
+  transition: all 0.3s;
 }
 .button--next {
   background: #fbd20a;
@@ -311,14 +319,28 @@ h3.subheading {
   color: #fff;
 }
 .button--round:hover {
-  background: #fff;
+  background: #3abcbf;
   border: 1px solid #71d2d4;
-  color: #71d2d4;
   cursor: pointer;
 }
-.wrapper {
-  max-width: 880px;
-  margin: 0 auto;
+.button--round-createAcc {
+  background: none;
+  color: #71d2d4;
+}
+.button--round-createAcc:hover {
+  background: #71d2d4;
+  border: 1px solid #71d2d4;
+  color: #fff;
+  cursor: pointer;
+}
+.remove {
+  background: #f04e59;
+}
+.fa-minus {
+  color: #f04e59;
+}
+.fa-plus {
+  color: #71d2d4;
 }
 input:focus {
   outline: none;
@@ -427,15 +449,6 @@ input:focus {
   font-weight: 300;
   margin-left: 8px;
 }
-.remove {
-  background: #f04e59;
-}
-.fa-minus {
-  color: #f04e59;
-}
-.fa-plus {
-  color: #71d2d4;
-}
 .selection {
   margin-bottom: 21px;
   display: flex;
@@ -475,9 +488,6 @@ input:focus {
   margin-right: 4px;
   padding: 14px 16px;
   background: #fff;
-}
-form {
-  select: ,;
 }
 form .form--option {
   flex-basis: 200px;
@@ -525,9 +535,11 @@ form label:after {
   left: 50px;
   top: 0;
 }
+form select,
 form textarea {
   display: block;
 }
+form select:hover,
 form textarea:hover {
   cursor: pointer;
 }
@@ -615,7 +627,7 @@ form.selection__duo {
   border: none;
   margin: 10px 0;
   font-weight: 300;
-  border: 1px solid #808080;
+  border: 2px solid #ebebeb;
 }
 .signIn__box .button--login {
   background: #71d2d4;
@@ -626,11 +638,18 @@ form.selection__duo {
   border: none;
   color: #fff;
 }
+.signIn__box .button--login:hover {
+  background: #3abcbf;
+}
 .signIn__box .button--submit-bare {
   width: 48%;
   background: none;
   border: 2px solid #71d2d4;
   color: #71d2d4;
+}
+.signIn__box .button--submit-bare:hover {
+  background: #71d2d4;
+  color: #fff;
 }
 .signIn__box .button--google {
   background: #d23f31;
@@ -767,10 +786,16 @@ form.selection__duo {
   padding: 7px;
   background: #fff;
 }
+.welcome .welcome--left p {
+  color: #808080;
+  text-align: center;
+  padding-bottom: 10px;
+}
 .welcome h2 {
   font-size: 4rem;
   position: relative;
   z-index: 1;
   line-height: 1.3;
   margin-top: 20px;
+  margin-bottom: 0;
 }

@@ -76,7 +76,6 @@ export default class Dashboard extends React.Component {
 						})
 						
 					}
-					// console.log("lala", servicesData);
 
 					this.setState({
 						services: servicesArray
@@ -147,7 +146,6 @@ export default class Dashboard extends React.Component {
 		const notes = this.createNote.value;
 		const service = this.state.service;
 
-		// console.log("chosen time",service)
 			if(currentUser) {
 				firebase.database().ref(`${currentUserId}/employees/${selectedObj.key}/times/${chosenTime}/bookingInfo`).set({
 					customerName,
@@ -291,7 +289,6 @@ export default class Dashboard extends React.Component {
 	}
 
 	bookingModal(e,person,bookedTime) {
-		console.log("hit booking modal", person, bookedTime)
 		this.setState({
 			removeModal: false,
 			personId: person.key
@@ -306,7 +303,6 @@ export default class Dashboard extends React.Component {
 			if (bookedTimes[key].time === time) {
 				const bookingInfo = bookedTimes[key].bookingInfo;
 				const customerName = bookingInfo.customerName;
-				console.log("booking info", bookingInfo)
 				dataArray.push({
 					stylistName: stylistName,
 					clientName: bookingInfo.customerName,
@@ -326,7 +322,6 @@ export default class Dashboard extends React.Component {
 	}
 
 	sweetAlert() {
-		console.log("hello");
 		this.setState({
 			alert: (<SweetAlert success title="Appointment Booked" onConfirm={() => this.hideAlert()}>
 			Appointment booked!
@@ -340,8 +335,6 @@ export default class Dashboard extends React.Component {
 		  addAppModal: false
 		});
 	}
-
-
 	render() {
 		return (
 			<div>

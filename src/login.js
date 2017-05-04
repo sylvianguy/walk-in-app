@@ -29,7 +29,7 @@ export default class Login extends React.Component {
 				const userId = res.uid;
 				firebase.database().ref(userId)
 					.on('value', (data) => {
-						console.log("lalala", data.val()) 
+						// console.log("lalala", data.val()) -
 					})
 						this.context.router.push('/dashboard');
 			})

@@ -1,20 +1,26 @@
 import React from 'react';
 import {Link} from 'react-router';
+import Menu from './menu';
 
 export default class Header extends React.Component{
 	constructor() {
 		super();
 		this.state = {
-			signedIn: false
+			signedIn: false,
+			userName: ''
 		}
 		this.signOut = this.signOut.bind(this)
 	}
 	componentDidMount() {
 		firebase.auth().onAuthStateChanged((user) => { 
 			var userId = user.uid
+			console.log(user)
 			firebase.database().ref(userId)
 				.on('value', (res) => {
-					console.log("what", res.val())
+					// console.log("what", res.val())
+					this.setState({
+						userName: res.val().name
+					})
 				})
 
 			const currentUser = firebase.auth().currentUser;
@@ -48,15 +54,21 @@ export default class Header extends React.Component{
 	}
 	render() {
 		const loggedIn = <a className="button--round" onClick={() => this.signOut()}>Sign Out</a>;
-		const loggedOut = <Link className="button--round" to="/login">Sign In</Link>;
+		const loggedOut = <Link className="button--round" to="/">Sign In</Link>;
+		const createAccount = <Link to="/createUser" className="button--round button--round-createAcc">Create Account</Link>;
+		const greeting = <h4>Hello, {this.state.userName}!</h4>;
+		const showLoginInfo = (
+			<div className="mainHeader__cta">
+				{this.state.signedIn ?  greeting : null}
+				{this.state.signedIn ? null : createAccount}
+				{this.state.signedIn ? loggedIn : loggedOut}
+			</div>
+		)
 		return (
 			<header className="mainHeader">
 				<div className="mainHeader__block wrapper">
-					<h1>W</h1>
-					<div className="mainHeader__cta">
-						<Link to="/createUser" className="button--round">Create Account</Link>
-						{this.state.signedIn ? loggedIn : loggedOut}
-					</div>
+					<Link to="/"><h1>W</h1></Link>
+					{this.props.location !== '/' ? showLoginInfo : null}
 				</div>
 			</header>
 		)

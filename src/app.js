@@ -13,7 +13,6 @@ import Dashboard from './dashboard';
 import Header from './header';
 import Times from './times';
 
-
 class App extends React.Component {
 	constructor() {
 		super();
@@ -36,7 +35,7 @@ class App extends React.Component {
 	}
 
 	render() {
-		const header = <Header history={this.props.history} />
+		const header = <Header history={this.props.history} pathLocation={this.props.location} />
 		return (
 			<div>
 				{header}
